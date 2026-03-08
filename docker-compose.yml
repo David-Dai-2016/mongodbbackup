@@ -1,0 +1,20 @@
+services:
+  mongodb-backup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mongodb-backup
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+      MONGO_URI: ${MONGO_URI}
+      BACKUP_ROOT: /var/backups/mongodb
+      LOG_FILE: /var/log/mongodb-backup.log
+      DAILY_RETENTION_DAYS: 7
+      WEEKLY_RETENTION_WEEKS: 5
+      MONTHLY_RETENTION_MONTHS: 12
+      # DATABASES_CSV: appdb,analytics
+    volumes:
+      - ./backup-data:/var/backups/mongodb
+      - ./logs:/var/log
+    command: ['/usr/local/bin/supercronic', '/app/crontab']
