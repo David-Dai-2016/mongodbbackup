@@ -1,5 +1,6 @@
 services:
   mongodb-backup:
+    image: mongodb-backup:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,7 +14,6 @@ services:
       DAILY_RETENTION_DAYS: 7
       WEEKLY_RETENTION_WEEKS: 5
       MONTHLY_RETENTION_MONTHS: 12
-      # DATABASES_CSV: appdb,analytics
     volumes:
       - ./backup-data:/var/backups/mongodb
       - ./logs:/var/log
